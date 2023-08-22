@@ -14,7 +14,7 @@ public class SimulandoUso {
 		EntityManagerFactory ef = Persistence.createEntityManagerFactory("mysql");
 		
 		Categoria novaCategoria = new Categoria();
-		novaCategoria.setNome("Celulares");
+		novaCategoria.setNome("Celulare");
 		
 		EntityManager manager = ef.createEntityManager();
 				

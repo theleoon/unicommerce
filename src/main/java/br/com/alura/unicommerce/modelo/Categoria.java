@@ -1,12 +1,6 @@
 package br.com.alura.unicommerce.modelo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "categoria")
@@ -16,10 +10,10 @@ public class Categoria {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome", length = 120)
+	@Column(length = 60, unique = true)
 	private String nome;
 	
-	private boolean status;
+	private boolean status = true;
 
 	public Categoria() {
 	}
@@ -30,14 +24,6 @@ public class Categoria {
 
 	public boolean isStatus() {
 		return status;
-	}
-
-	public boolean desativa() {
-		
-		// lógica, posso desativar
-		
-		return false;
-		
 	}
 
 	public Long getId() {

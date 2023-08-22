@@ -1,7 +1,5 @@
 package br.com.alura.unicommerce.dao;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 
 import br.com.alura.unicommerce.modelo.Categoria;
@@ -15,15 +13,13 @@ public class CategoriaDao {
 	}
 
 	public Categoria buscaPorId(Long id) {
-		return null;
+		return em.find(Categoria.class, id);
 	}
 
 	public void cadastra(Categoria obj) {
+		em.getTransaction().begin();
 		em.persist(obj);
-	}
-
-	public List<Categoria> listaTodos() {
-		return null;
+		em.getTransaction().commit();
 	}
 
 }
