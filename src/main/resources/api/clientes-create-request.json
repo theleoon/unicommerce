@@ -1,0 +1,13 @@
+{
+    "nome":"João da Silva",
+    "cpf":"444.444.444-88",
+    "telefone":"119999-9999",
+    "endereco": {
+        "rua":"Rua Sem Nome",
+        "numero":"55",
+        "complemento":"Próximo da praça",
+        "bairro":"Paulista",
+        "cidade":"São Paulo",
+        "estado":"SP"
+    }
+}
