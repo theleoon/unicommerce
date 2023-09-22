@@ -43,10 +43,20 @@ public class ItemDePedido {
     private TipoDescontoItemPedido tipoDesconto;
     
 	@Transient
-    private BigDecimal total;
+    private BigDecimal total = BigDecimal.ZERO;
 
 	public ItemDePedido() {
 	}
+
+	public ItemDePedido(Long quantidade, Produto produto, BigDecimal desconto, TipoDescontoItemPedido tipoDesconto) {
+		this.quantidade = quantidade;
+		this.produto = produto;
+		this.desconto = desconto;
+		this.tipoDesconto = tipoDesconto;
+		this.precoUnitario = produto.getPreco();
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -105,7 +115,7 @@ public class ItemDePedido {
 	}
 
 	public BigDecimal getTotal() {
-		return total;
+		return this.produto.getPreco().multiply(new BigDecimal(this.quantidade));
 	}
 
 	public void setTotal(BigDecimal total) {

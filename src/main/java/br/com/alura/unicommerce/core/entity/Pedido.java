@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 public class Pedido {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     
@@ -42,12 +42,38 @@ public class Pedido {
     
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemDePedido> itemPedidos = new ArrayList<>();
+	
+	public Pedido(Cliente cliente, BigDecimal desconto, TipoDescontoPedido tipoDesconto,
+			List<ItemDePedido> itemPedidos) {
+		this.data = LocalDate.now();
+		this.cliente = cliente;
+		this.desconto = desconto;
+		this.tipoDesconto = tipoDesconto;
+		adicionaItens(itemPedidos);
+	}
+	
+	public Pedido() {
+	}
+
+	public void adicionaItens(List<ItemDePedido> itemPedidos) {
+		for (ItemDePedido item : itemPedidos) {
+			this.adicionaItem(item);
+		}
+	}
+
+	public void adicionaItem(ItemDePedido item) {
+		this.total = this.total.add(item.getTotal());
+//		this.quantidadeDeItems = this.quantidadeDeItems + item.getQuantidade();
+//		this.descontosDeItens = this.descontosDeItens.add(item.getDesconto());
+		item.setPedido(this);
+		itemPedidos.add(item);
+	}
+
+	@Transient
+    private BigDecimal total = BigDecimal.ZERO;
     
 	@Transient
-    private BigDecimal total;
-    
-	@Transient
-    private BigDecimal descontosDeItens;
+    private BigDecimal descontosDeItens = BigDecimal.ZERO;
     
 	@Transient
     private Long quantidadeDeItems;
@@ -124,4 +150,12 @@ public class Pedido {
 		this.quantidadeDeItems = quantidadeDeItems;
 	}
 
+	@Override
+	public String toString() {
+		return "Pedido [id=" + id + ", data=" + data + ", cliente=" + cliente + ", desconto=" + desconto
+				+ ", tipoDesconto=" + tipoDesconto + ", itemPedidos=" + itemPedidos + ", total=" + total
+				+ ", descontosDeItens=" + descontosDeItens + ", quantidadeDeItems=" + quantidadeDeItems + "]";
+	}
+
+	
 }
