@@ -1,4 +1,4 @@
-package br.com.alura.unicommerce.core.jpa;
+package br.com.alura.unicommerce.core.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

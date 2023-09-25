@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Component;
 
 import br.com.alura.unicommerce.core.entity.Pedido;
-import br.com.alura.unicommerce.core.jpa.JPAUtil;
+import br.com.alura.unicommerce.core.util.JPAUtil;
 import br.com.alura.unicommerce.core.vo.RelatorioDeVendasCategoriaVo;
 import br.com.alura.unicommerce.core.vo.RelatorioDeVendasPorClienteVo;
 import br.com.alura.unicommerce.core.vo.RelatorioDeVendasVo;

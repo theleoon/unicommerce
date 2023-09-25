@@ -1,4 +1,4 @@
-package br.com.alura.unicommerce.infra.security;
+package br.com.alura.unicommerce.infra.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.alura.unicommerce.infra.security.filter.SecurityFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +31,6 @@ public class SecurityConfigurations {
                 		.and()
 	                		.authorizeHttpRequests()
 	                			.regexMatchers(HttpMethod.POST, "/api/login").permitAll()
-//            			.and()
-//            				.authorizeHttpRequests()
-//                				.regexMatchers(HttpMethod.GET, "/api/categoria").permitAll()
-//        				.and()
-//	        				.authorizeHttpRequests()
-//	            				.regexMatchers(HttpMethod.GET, "/api/produto").permitAll()
             			.anyRequest()
             			.authenticated()
         				.and()

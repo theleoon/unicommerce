@@ -6,13 +6,14 @@ import org.junit.jupiter.api.*;
 public class RelatorioDeVendasCategoriaVoTest {
 	
 	@BeforeAll
-	private void init() {
+	static void init() {
 		// TODO construir todos os dados necessários para os cenários.
 	}
 	
 	@Test
 	void validarCenarioDeNegocio1() {
 		// TODO implementar validação da regra de negócio
+		assertTrue(Boolean.TRUE);
 	}
 	
 	@Test

@@ -1,4 +1,4 @@
-package br.com.alura.unicommerce.infra.security;
+package br.com.alura.unicommerce.infra.security.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "pedido")
@@ -34,7 +33,7 @@ public class Pedido {
     private Cliente cliente;
     
 	@Column(name = "desconto", nullable = false, scale = 2)
-    private BigDecimal desconto;
+    private BigDecimal desconto = BigDecimal.ZERO;
     
 	@Column(name = "tipo_desconto", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -43,12 +42,9 @@ public class Pedido {
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemDePedido> itemPedidos = new ArrayList<>();
 	
-	public Pedido(Cliente cliente, BigDecimal desconto, TipoDescontoPedido tipoDesconto,
-			List<ItemDePedido> itemPedidos) {
+	public Pedido(Cliente cliente, List<ItemDePedido> itemPedidos) {
 		this.data = LocalDate.now();
 		this.cliente = cliente;
-		this.desconto = desconto;
-		this.tipoDesconto = tipoDesconto;
 		adicionaItens(itemPedidos);
 	}
 	
@@ -62,21 +58,40 @@ public class Pedido {
 	}
 
 	public void adicionaItem(ItemDePedido item) {
-		this.total = this.total.add(item.getTotal());
-//		this.quantidadeDeItems = this.quantidadeDeItems + item.getQuantidade();
-//		this.descontosDeItens = this.descontosDeItens.add(item.getDesconto());
 		item.setPedido(this);
 		itemPedidos.add(item);
 	}
 
-	@Transient
-    private BigDecimal total = BigDecimal.ZERO;
-    
-	@Transient
-    private BigDecimal descontosDeItens = BigDecimal.ZERO;
-    
-	@Transient
-    private Long quantidadeDeItems;
+	public BigDecimal getDesconto() {
+		this.desconto = tipoDesconto.getTotalDeDesconto(getTotalLiquido());
+		return this.desconto;
+	}
+
+	public BigDecimal getTotalLiquido() {
+		BigDecimal total = getTotalDeItens();
+		
+		return total.subtract(this.desconto);
+	}
+	
+	public BigDecimal getTotalBruto() {
+		BigDecimal total = getTotalDeItens();
+		return total;
+	}
+
+	public BigDecimal getTotalDeItens() {
+		BigDecimal total = BigDecimal.ZERO;
+		
+		for (ItemDePedido item : itemPedidos) {
+			total = total.add(item.getTotal());
+		}
+		return total;
+	}
+
+	public void aplicaPoliticaDeDesconto(Integer quantidadeDePedidos) {
+		if (quantidadeDePedidos > 5) {
+			this.tipoDesconto = TipoDescontoPedido.QUANTIDADE;
+		}
+	}
 
 	public Long getId() {
 		return id;
@@ -90,72 +105,21 @@ public class Pedido {
 		return data;
 	}
 
-	public void setData(LocalDate data) {
-		this.data = data;
-	}
-
 	public Cliente getCliente() {
 		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public BigDecimal getDesconto() {
-		return desconto;
-	}
-
-	public void setDesconto(BigDecimal desconto) {
-		this.desconto = desconto;
 	}
 
 	public TipoDescontoPedido getTipoDesconto() {
 		return tipoDesconto;
 	}
 
-	public void setTipoDesconto(TipoDescontoPedido tipoDesconto) {
-		this.tipoDesconto = tipoDesconto;
-	}
-
 	public List<ItemDePedido> getItemPedidos() {
 		return itemPedidos;
-	}
-
-	public void setItemPedidos(List<ItemDePedido> itemPedidos) {
-		this.itemPedidos = itemPedidos;
-	}
-
-	public BigDecimal getTotal() {
-		return total;
-	}
-
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
-
-	public BigDecimal getDescontosDeItens() {
-		return descontosDeItens;
-	}
-
-	public void setDescontosDeItens(BigDecimal descontosDeItens) {
-		this.descontosDeItens = descontosDeItens;
-	}
-
-	public Long getQuantidadeDeItems() {
-		return quantidadeDeItems;
-	}
-
-	public void setQuantidadeDeItems(Long quantidadeDeItems) {
-		this.quantidadeDeItems = quantidadeDeItems;
 	}
 
 	@Override
 	public String toString() {
 		return "Pedido [id=" + id + ", data=" + data + ", cliente=" + cliente + ", desconto=" + desconto
-				+ ", tipoDesconto=" + tipoDesconto + ", itemPedidos=" + itemPedidos + ", total=" + total
-				+ ", descontosDeItens=" + descontosDeItens + ", quantidadeDeItems=" + quantidadeDeItems + "]";
+				+ ", tipoDesconto=" + tipoDesconto + ", itemPedidos=" + itemPedidos + "]";
 	}
-
-	
 }

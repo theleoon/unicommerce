@@ -12,11 +12,14 @@ public class PedidoService {
 	@Autowired
 	private PedidoDao pedidoDao;
 	
-
 	public void cadastra(Pedido pedido) {
-		System.out.println(pedido);
+		aplicarPoliticaDeDesconto(pedido);
 		pedidoDao.save(pedido);
-		
+	}
+
+	private void aplicarPoliticaDeDesconto(Pedido pedido) {
+		Integer quantidadeDePedidos = pedidoDao.listaTodos().size();
+		pedido.aplicaPoliticaDeDesconto(quantidadeDePedidos);
 	}
 
 }

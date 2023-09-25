@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.alura.unicommerce.core.entity.ItemDePedido;
 import br.com.alura.unicommerce.core.entity.Produto;
-import br.com.alura.unicommerce.core.jpa.JPAUtil;
+import br.com.alura.unicommerce.core.util.JPAUtil;
 
 @Component
 public class ProdutoDao implements Dao<Produto>{

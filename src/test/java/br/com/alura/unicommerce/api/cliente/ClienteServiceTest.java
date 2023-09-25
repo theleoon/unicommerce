@@ -6,7 +6,7 @@ import org.junit.jupiter.api.*;
 public class ClienteServiceTest {
 	
 	@BeforeAll
-	private void init() {
+	static void init() {
 		// TODO construir todos os dados necessários para os cenários.
 	}
 	

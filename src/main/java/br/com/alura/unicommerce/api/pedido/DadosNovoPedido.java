@@ -11,26 +11,20 @@ import br.com.alura.unicommerce.api.produto.service.ProdutoService;
 import br.com.alura.unicommerce.core.entity.Cliente;
 import br.com.alura.unicommerce.core.entity.ItemDePedido;
 import br.com.alura.unicommerce.core.entity.Pedido;
-import br.com.alura.unicommerce.core.entity.TipoDescontoPedido;
 
-public record DadosDePedido(@NotNull Long clienteId, 
-		String tipoDesconto, 
-		BigDecimal desconto,
+public record DadosNovoPedido(@NotNull Long clienteId, 
 		@NotNull BigDecimal totalPedido,
 		@NotNull List<DadosDeProduto> produtos) {
 
-	public Pedido converter(ClienteService clienteService, ProdutoService produtoService) {
+	public Optional<Pedido> converter(ClienteService clienteService, ProdutoService produtoService) {
 		
 		Optional<Cliente> cliente = clienteService.buscaPorId(clienteId);
 		List<ItemDePedido> itens = produtos.stream().map(produto -> produto.converter(produtoService)).toList();
 		
 		if (cliente.isPresent()) 
-			return new Pedido(cliente.get(), desconto, 
-					TipoDescontoPedido.valueOf(tipoDesconto), itens);
+			return Optional.ofNullable(new Pedido(cliente.get(), itens));
 		
-		return null;
+		return Optional.empty();
 	}
 	
-	
-
 }

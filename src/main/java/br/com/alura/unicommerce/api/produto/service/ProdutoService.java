@@ -16,9 +16,9 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoDao produtoDao;
     
-    public void cadastra(Produto produto) throws ProdutoException {
-        if(produto == null) throw new ProdutoException("Cadastro inválido para produto nulo");
-        this.produtoDao.save(produto);
+    public void cadastra(Optional<Produto> obj) throws ProdutoException {
+        if(obj.isEmpty()) throw new ProdutoException("Cadastro inválido para produto nulo");
+        this.produtoDao.save(obj.get());
     }
 
     public Optional<Produto> buscaPorId(Long id) {

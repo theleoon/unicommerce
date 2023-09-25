@@ -65,7 +65,6 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.6</version>
         </dependency>
 
         <dependency>
@@ -90,13 +89,11 @@
          <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.6.15.Final</version>
-        </dependency>
+         </dependency>
         
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
         </dependency>
         
         <dependency>
@@ -120,6 +117,21 @@
 
     <build>
 		<plugins>
+			 <plugin>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-maven-plugin</artifactId>
+		        <configuration>
+		            <mainClass>br.com.alura.unicommerce.WebApplication</mainClass>
+		            <layout>JAR</layout>
+		        </configuration>
+		        <executions>
+				    <execution>
+				        <goals>
+				            <goal>repackage</goal>
+				        </goals>
+				    </execution>
+				</executions>
+   			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-help-plugin</artifactId>

@@ -48,11 +48,11 @@ public class ItemDePedido {
 	public ItemDePedido() {
 	}
 
-	public ItemDePedido(Long quantidade, Produto produto, BigDecimal desconto, TipoDescontoItemPedido tipoDesconto) {
+	public ItemDePedido(Long quantidade, Produto produto) {
 		this.quantidade = quantidade;
 		this.produto = produto;
-		this.desconto = desconto;
-		this.tipoDesconto = tipoDesconto;
+		this.desconto = BigDecimal.ZERO;
+		this.tipoDesconto = TipoDescontoItemPedido.NENHUM;
 		this.precoUnitario = produto.getPreco();
 	}
 

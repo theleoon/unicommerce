@@ -1,4 +1,4 @@
-package br.com.alura.unicommerce.infra.security;
+package br.com.alura.unicommerce.infra.security.filter;
 
 import java.io.IOException;
 
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.alura.unicommerce.core.repository.UsuarioRepository;
+import br.com.alura.unicommerce.infra.security.service.TokenService;
 
 
 @Component
@@ -48,5 +49,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         return null;
     }
+    
+ 
 
 }

@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.alura.unicommerce.core.entity.Categoria;
+import br.com.alura.unicommerce.core.entity.Produto;
 
 @Repository
-public interface CategoriaRepository extends CrudRepository<Categoria, Long>  {
+public interface ProdutoRepository extends CrudRepository<Produto, Long>  {
 	
-	List<Categoria> findAll();
+	List<Produto> findAll();
 	
-	Categoria findByNome(String nome);
+	Produto findByNome(String nome);
 
 }

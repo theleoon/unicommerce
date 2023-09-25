@@ -1,20 +1,14 @@
 {
     "clienteId": 1,
-    "tipoDesconto": "NENHUM",
-    "desconto": 100,
     "totalPedido": 19600.00,
     "produtos": [
         {
             "id": 1,
-            "quantidade": 2,
-            "desconto": 200,
-            "tipoDesconto": "NENHUM"
+            "quantidade": 2
         },
         {
             "id": 2,
-            "quantidade": 2,
-            "desconto": 200,
-            "tipoDesconto": "NENHUM"
+            "quantidade": 2
         }
     ]
 }

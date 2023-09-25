@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.alura.unicommerce.api.DadosMensagem;
 import br.com.alura.unicommerce.api.categoria.service.CategoriaService;
-import br.com.alura.unicommerce.api.produto.ProdutoDto;
-import br.com.alura.unicommerce.api.produto.ProdutoRequestDto;
+import br.com.alura.unicommerce.api.produto.DadosProduto;
+import br.com.alura.unicommerce.api.produto.DadosNovoProduto;
 import br.com.alura.unicommerce.api.produto.service.ProdutoService;
-import br.com.alura.unicommerce.core.MensagemDto;
 import br.com.alura.unicommerce.core.entity.Produto;
 
 @RestController
@@ -39,37 +39,36 @@ public class ProdutoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Object> criaNovoProduto(@RequestBody @Valid ProdutoRequestDto form, UriComponentsBuilder uriBuilder,
+	public ResponseEntity<Object> criaNovoProduto(@RequestBody @Valid DadosNovoProduto form, UriComponentsBuilder uriBuilder,
 			BindingResult result) {
-
-		System.out.println(form.toString());
 
 		try {
 
 			if (result.hasErrors())
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemDto(result.getAllErrors()));
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DadosMensagem(result.getAllErrors()));
 
-			Produto novo = form.converter(categoriaService);
+			Optional<Produto> novo = form.toEntity(categoriaService);
+				
 			produtoService.cadastra(novo);
-
-			URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(novo.getId()).toUri();
-			return ResponseEntity.created(uri).body(new ProdutoDto(novo));
+			
+			URI uri = uriBuilder.path("/api/produtos/{id}").buildAndExpand(novo.get().getId()).toUri();
+			return ResponseEntity.created(uri).body(new DadosProduto(novo.get()));
 
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new MensagemDto("Ocorreu uma falha no cadastro de produto"));
+					.body(new DadosMensagem("Ocorreu uma falha no cadastro de produto"));
 		}
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> buscaProdutoPorId(@PathVariable("id") Long produtoId) {
+	public ResponseEntity<Object> buscaPorId(@PathVariable("id") Long produtoId) {
 		try {
 			Optional<Produto> produto = produtoService.buscaPorId(produtoId);
 
 			if (produto.isEmpty())
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MensagemDto("Produto não encontrado"));
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosMensagem("Produto não encontrado"));
 
-			return ResponseEntity.ok(new ProdutoDto(produto.get()));
+			return ResponseEntity.ok(new DadosProduto(produto.get()));
 
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -77,14 +76,14 @@ public class ProdutoController {
 	}
 
 	@GetMapping("/lista")
-	public ResponseEntity<List<ProdutoDto>> listaTodos() {
+	public ResponseEntity<List<DadosProduto>> listaTodos() {
 		try {
 			Optional<List<Produto>> produtos = produtoService.listaTodos();
 
 			if (produtos.isEmpty())
 				return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 
-			List<ProdutoDto> produtosDto = produtos.get().stream().map(ProdutoDto::new).collect(Collectors.toList());
+			List<DadosProduto> produtosDto = produtos.get().stream().map(DadosProduto::new).collect(Collectors.toList());
 
 			return ResponseEntity.ok(produtosDto);
 		} catch (Exception e) {
