@@ -1,13 +1,12 @@
-# UniCommerce
+## UniCommerce
 
-## Informações gerais dos pedidos em _pedidos.csv_
-- Campos: **CATEGORIA, PRODUTO, PREÇO, QUANTIDADE, DATA, CLIENTE**
+##### COMO SUBIR A APLICAÇÃO
+- Gerar o .jar do projeto com mvn clean package
+- Executar o .jar através do console utilizando o comando java -jar unicommerce-0.0.1-SNAPSHOT.jar
 
+##### DADOS DE ACESSO A BASE DE DADOS PRÉ CONFIGURADOS
+- spring.datasource.url=jdbc:mysql://localhost:3306/unicommerce
+- spring.datasource.username=root
+- spring.datasource.password=alura123
 
-### RELATÓRIO DE VALORES TOTAIS
-- TOTAL DE PEDIDOS REALIZADOS: 16
-- TOTAL DE PRODUTOS VENDIDOS: 35
-- TOTAL DE CATEGORIAS: 5
-- MONTANTE DE VENDAS: R$ 178.374,49
-- PEDIDO MAIS BARATO: R$ 95,17 (Clean Code)
-- PEDIDO MAIS CARO: R$ 55.056,00 (iPhone 13 Pro)
+Caso seja necessário, poderá sobreescrever essas configurações passando os parâmetros via linha de comando.
