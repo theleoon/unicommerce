@@ -4,13 +4,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
-
 import br.com.alura.unicommerce.api.cliente.service.ClienteService;
 import br.com.alura.unicommerce.api.produto.service.ProdutoService;
 import br.com.alura.unicommerce.core.entity.Cliente;
 import br.com.alura.unicommerce.core.entity.ItemDePedido;
 import br.com.alura.unicommerce.core.entity.Pedido;
+import jakarta.validation.constraints.NotNull;
 
 public record DadosNovoPedido(@NotNull Long clienteId, 
 		@NotNull BigDecimal totalPedido,

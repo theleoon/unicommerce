@@ -3,9 +3,6 @@ package br.com.alura.unicommerce.api.cliente.controller;
 import java.net.URI;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +20,8 @@ import br.com.alura.unicommerce.api.cliente.DadosCliente;
 import br.com.alura.unicommerce.api.cliente.DadosNovoCliente;
 import br.com.alura.unicommerce.api.cliente.service.ClienteService;
 import br.com.alura.unicommerce.core.entity.Cliente;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/cliente")

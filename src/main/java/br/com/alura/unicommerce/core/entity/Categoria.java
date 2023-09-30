@@ -1,11 +1,12 @@
 package br.com.alura.unicommerce.core.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "categoria")
@@ -17,8 +18,9 @@ public class Categoria {
 	
 	@Column(length = 60, unique = true)
 	private String nome;
-	
+
 	private boolean status = true;
+	
 
 	public Categoria() {
 	}
@@ -64,7 +66,9 @@ public class Categoria {
 	public String toString() {
 		return "Categoria [nome=" + nome + "]";
 	}
-	
-	
 
+	public void desativa() {
+		this.status = Boolean.FALSE;
+	}
+	
 }

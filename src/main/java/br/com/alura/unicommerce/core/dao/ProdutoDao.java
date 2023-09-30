@@ -2,13 +2,12 @@ package br.com.alura.unicommerce.core.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Component;
 
 import br.com.alura.unicommerce.core.entity.ItemDePedido;
 import br.com.alura.unicommerce.core.entity.Produto;
 import br.com.alura.unicommerce.core.util.JPAUtil;
+import jakarta.persistence.EntityManager;
 
 @Component
 public class ProdutoDao implements Dao<Produto>{

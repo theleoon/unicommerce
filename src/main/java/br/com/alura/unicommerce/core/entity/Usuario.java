@@ -4,14 +4,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity(name = "usuario")
 public class Usuario implements UserDetails {
@@ -22,8 +22,13 @@ public class Usuario implements UserDetails {
     private Long id;
     private String login;
     private String senha;
+    
+//    public Usuario(String login, String senha) {
+//		this.login = login;
+//		this.setSenha(senha);
+//	}
 
-    @Override
+	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
@@ -98,8 +103,4 @@ public class Usuario implements UserDetails {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
-    
-    
 }

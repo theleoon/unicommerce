@@ -1,7 +1,5 @@
 package br.com.alura.unicommerce.api.auth.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +15,7 @@ import br.com.alura.unicommerce.api.auth.DadosAutenticacao;
 import br.com.alura.unicommerce.api.auth.DadosTokenJWT;
 import br.com.alura.unicommerce.core.entity.Usuario;
 import br.com.alura.unicommerce.infra.security.service.TokenService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/login")

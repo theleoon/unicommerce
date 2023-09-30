@@ -5,17 +5,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pedido")
@@ -27,7 +27,7 @@ public class Pedido {
     private Long id;
     
 	@Column(name = "data", nullable = false)
-    private LocalDate data;
+    private LocalDate data = LocalDate.now();
     
 	@ManyToOne(optional = false)
     private Cliente cliente;
@@ -43,7 +43,6 @@ public class Pedido {
     private List<ItemDePedido> itemPedidos = new ArrayList<>();
 	
 	public Pedido(Cliente cliente, List<ItemDePedido> itemPedidos) {
-		this.data = LocalDate.now();
 		this.cliente = cliente;
 		adicionaItens(itemPedidos);
 	}
@@ -63,13 +62,12 @@ public class Pedido {
 	}
 
 	public BigDecimal getDesconto() {
-		this.desconto = tipoDesconto.getTotalDeDesconto(getTotalLiquido());
+		this.desconto = tipoDesconto.getTotalDeDesconto(getTotalBruto());
 		return this.desconto;
 	}
 
 	public BigDecimal getTotalLiquido() {
 		BigDecimal total = getTotalDeItens();
-		
 		return total.subtract(this.desconto);
 	}
 	

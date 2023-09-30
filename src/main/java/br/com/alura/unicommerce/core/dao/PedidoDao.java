@@ -3,8 +3,6 @@ package br.com.alura.unicommerce.core.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Component;
 
 import br.com.alura.unicommerce.core.entity.Pedido;
@@ -13,6 +11,7 @@ import br.com.alura.unicommerce.core.vo.RelatorioDeVendasCategoriaVo;
 import br.com.alura.unicommerce.core.vo.RelatorioDeVendasPorClienteVo;
 import br.com.alura.unicommerce.core.vo.RelatorioDeVendasVo;
 import br.com.alura.unicommerce.core.vo.RelatorioProdutoVendidosMaisTresVezesVo;
+import jakarta.persistence.EntityManager;
 
 @Component
 public class PedidoDao implements Dao<Pedido>{

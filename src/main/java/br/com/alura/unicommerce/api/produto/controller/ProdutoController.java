@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +19,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.alura.unicommerce.api.DadosMensagem;
 import br.com.alura.unicommerce.api.categoria.service.CategoriaService;
-import br.com.alura.unicommerce.api.produto.DadosProduto;
 import br.com.alura.unicommerce.api.produto.DadosNovoProduto;
+import br.com.alura.unicommerce.api.produto.DadosProduto;
 import br.com.alura.unicommerce.api.produto.service.ProdutoService;
 import br.com.alura.unicommerce.core.entity.Produto;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/produto")

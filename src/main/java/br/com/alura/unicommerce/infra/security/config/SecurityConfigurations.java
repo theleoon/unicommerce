@@ -30,7 +30,8 @@ public class SecurityConfigurations {
                 	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 		.and()
 	                		.authorizeHttpRequests()
-	                			.regexMatchers(HttpMethod.POST, "/api/login").permitAll()
+	                			.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+	                			.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
             			.anyRequest()
             			.authenticated()
         				.and()
@@ -50,7 +51,6 @@ public class SecurityConfigurations {
     
     public static void main(String[] args) {
     	System.out.println(new BCryptPasswordEncoder().encode("alura123"));
-        
 	}
 
 

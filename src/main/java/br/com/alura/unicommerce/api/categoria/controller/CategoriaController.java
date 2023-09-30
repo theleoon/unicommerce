@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +22,8 @@ import br.com.alura.unicommerce.api.categoria.DadosCategoria;
 import br.com.alura.unicommerce.api.categoria.DadosNovaCategoria;
 import br.com.alura.unicommerce.api.categoria.service.CategoriaService;
 import br.com.alura.unicommerce.core.entity.Categoria;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/categoria")
@@ -37,8 +36,7 @@ public class CategoriaController {
     @Transactional
     public ResponseEntity<DadosCategoria> criaNovaCategoria(@RequestBody @Valid DadosNovaCategoria form,
                                                     UriComponentsBuilder uriBuilder,
-                                                    BindingResult result){
-    	System.out.println(form.toString());
+                                                    BindingResult result) {
     	
         if(result.hasFieldErrors())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
