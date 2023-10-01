@@ -20,7 +20,7 @@ public class UsuarioService {
 
 		if (usuario == null)
 			throw new UsuarioException("Cadastro inválido para usuario nulo");
-
+		
 		return Optional.ofNullable(repository.save(usuario));
 	}
 

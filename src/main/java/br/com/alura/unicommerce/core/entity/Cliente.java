@@ -17,6 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,15 +40,12 @@ public class Cliente {
 
 	@Embedded
 	private Endereco endereco;
+	
+	@OneToOne(optional = true)
+	private Usuario usuario;
 
 	@OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Pedido> pedidos = new ArrayList<>();
-	
-	@CreatedBy
-	private User user;
-
-	@CreatedDate
-	private LocalTime createdDate;
 
 	public Cliente(String nome, String cpf, String telefone, Endereco endereco) {
 		this.nome = nome;
@@ -105,6 +103,14 @@ public class Cliente {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override

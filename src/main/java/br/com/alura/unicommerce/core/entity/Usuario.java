@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +26,8 @@ public class Usuario implements UserDetails {
     
     public Usuario(String login, String senha) {
 		this.login = login;
-		this.senha = senha;
+//		this.senha = senha;
+		this.setSenha(senha);
 	}
     
     public Usuario() {
@@ -104,6 +106,6 @@ public class Usuario implements UserDetails {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		this.senha = new BCryptPasswordEncoder().encode(senha);
 	}
 }
