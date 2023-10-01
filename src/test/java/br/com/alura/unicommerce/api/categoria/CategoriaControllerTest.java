@@ -31,7 +31,7 @@ class CategoriaControllerTest {
 	private JacksonTester<DadosNovaCategoria> dadosNovaCategoriaJson;
 	
 	@Test
-	@DisplayName("Valida a criação de uma nova categoria através da API")
+	@DisplayName("Valida a consulta de uma categoria por id")
 	@WithMockUser
 	void cria_categoria() throws Exception {
 		
