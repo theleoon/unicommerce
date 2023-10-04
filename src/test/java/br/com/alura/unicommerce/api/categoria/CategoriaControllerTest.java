@@ -2,6 +2,7 @@ package br.com.alura.unicommerce.api.categoria;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,11 +11,10 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-
-import br.com.alura.unicommerce.core.entity.Categoria;
-import br.com.alura.unicommerce.core.repository.CategoriaRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,6 +53,26 @@ class CategoriaControllerTest {
 		 
 		assertEquals(response.getStatus(), 200);
 
+	}
+	
+	@Test
+	@DisplayName("Cadastro nova categoria")
+	@WithMockUser
+	void cadastroNovaCategoria() throws Exception {
+
+			var dados = dadosNovaCategoriaJson
+							.write(new DadosNovaCategoria("Geladeiras")).getJson();
+			
+			System.out.println(dados);
+			
+			var response = mvc.perform(post("/api/categoria")
+								.contentType(MediaType.APPLICATION_JSON)
+								.content(dados))
+								.andReturn().getResponse();
+			
+			System.out.println(response.getContentAsString());
+			
+			assertEquals(201, response.getStatus());
 	}
 
 }

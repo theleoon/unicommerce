@@ -9,25 +9,29 @@ import org.springframework.stereotype.Service;
 import br.com.alura.unicommerce.api.produto.exception.ProdutoException;
 import br.com.alura.unicommerce.core.dao.ProdutoDao;
 import br.com.alura.unicommerce.core.entity.Produto;
+import br.com.alura.unicommerce.core.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
 	
 	@Autowired
 	private ProdutoDao produtoDao;
+	
+	@Autowired
+	private ProdutoRepository repository;
     
     public void cadastra(Optional<Produto> obj) throws ProdutoException {
         if(obj.isEmpty()) throw new ProdutoException("Cadastro inválido para produto nulo");
-        this.produtoDao.save(obj.get());
+        repository.save(obj.get());
     }
 
     public Optional<Produto> buscaPorId(Long id) {
-        return Optional.ofNullable(this.produtoDao.get(id));
+        return repository.findById(id);
     }
 
     public void atualiza(Produto produto) throws ProdutoException {
         if(produto == null) throw new ProdutoException("Atualização inválida para produto nulo");
-        this.produtoDao.save(produto);
+        repository.save(produto);
     }
 
     public Optional<List<Produto>> listaTodos() {

@@ -36,7 +36,7 @@ public class PedidoController {
 	
 	@PostMapping
 	@Transactional
-	ResponseEntity<Object> cadastra(@RequestBody @Valid DadosNovoPedido dadosDePedido, 
+	public ResponseEntity<Object> cadastra(@RequestBody @Valid DadosNovoPedido dadosDePedido, 
 			BindingResult result) {
 		
 		if (result.hasErrors()) ResponseEntity

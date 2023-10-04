@@ -8,4 +8,5 @@ import br.com.alura.unicommerce.core.entity.Pedido;
 @Repository
 public interface PedidoRepository extends CrudRepository<Pedido, Long>  {
 
+
 }

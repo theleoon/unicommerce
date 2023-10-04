@@ -37,7 +37,7 @@ public class Pedido {
     
 	@Column(name = "tipo_desconto", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TipoDescontoPedido tipoDesconto;
+    private TipoDescontoPedido tipoDesconto = TipoDescontoPedido.NENHUM;
     
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemDePedido> itemPedidos = new ArrayList<>();
