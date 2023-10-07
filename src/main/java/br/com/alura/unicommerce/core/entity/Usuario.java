@@ -21,13 +21,14 @@ public class Usuario implements UserDetails {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
     private String login;
+    
     private String senha;
     
     public Usuario(String login, String senha) {
 		this.login = login;
-//		this.senha = senha;
-		this.setSenha(senha);
+		this.senha = senha;
 	}
     
     public Usuario() {
@@ -106,6 +107,10 @@ public class Usuario implements UserDetails {
 	}
 
 	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
+	public void criptografarSenha(String senha) {
 		this.senha = new BCryptPasswordEncoder().encode(senha);
 	}
 }

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,33 +22,39 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "pedido")
 public class Pedido {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-    
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
+	private Long id;
+
 	@Column(name = "data", nullable = false)
-    private LocalDate data = LocalDate.now();
-    
+	private LocalDate data = LocalDate.now();
+
+	@JsonIgnore
 	@ManyToOne(optional = false)
-    private Cliente cliente;
-    
+	private Cliente cliente;
+
 	@Column(name = "desconto", nullable = false, scale = 2)
-    private BigDecimal desconto = BigDecimal.ZERO;
-    
+	private BigDecimal desconto = BigDecimal.ZERO;
+
+	@Column(name = "total", nullable = false, scale = 2)
+	private BigDecimal total = BigDecimal.ZERO;
+
 	@Column(name = "tipo_desconto", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TipoDescontoPedido tipoDesconto = TipoDescontoPedido.NENHUM;
-    
+	@Enumerated(EnumType.STRING)
+	private TipoDescontoPedido tipoDesconto = TipoDescontoPedido.NENHUM;
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<ItemDePedido> itemPedidos = new ArrayList<>();
-	
+	private List<ItemDePedido> itemPedidos = new ArrayList<>();
+
 	public Pedido(Cliente cliente, List<ItemDePedido> itemPedidos) {
 		this.cliente = cliente;
 		adicionaItens(itemPedidos);
+		this.total = getTotalLiquido();
 	}
-	
+
 	public Pedido() {
 	}
 
@@ -61,24 +69,9 @@ public class Pedido {
 		itemPedidos.add(item);
 	}
 
-	public BigDecimal getDesconto() {
-		this.desconto = tipoDesconto.getTotalDeDesconto(getTotalBruto());
-		return this.desconto;
-	}
-
-	public BigDecimal getTotalLiquido() {
-		BigDecimal total = getTotalDeItens();
-		return total.subtract(this.desconto);
-	}
-	
-	public BigDecimal getTotalBruto() {
-		BigDecimal total = getTotalDeItens();
-		return total;
-	}
-
 	public BigDecimal getTotalDeItens() {
 		BigDecimal total = BigDecimal.ZERO;
-		
+
 		for (ItemDePedido item : itemPedidos) {
 			total = total.add(item.getTotal());
 		}
@@ -86,9 +79,28 @@ public class Pedido {
 	}
 
 	public void aplicaPoliticaDeDesconto(Integer quantidadeDePedidos) {
-		if (quantidadeDePedidos > 5) {
+		if (quantidadeDePedidos >= 5) {
 			this.tipoDesconto = TipoDescontoPedido.QUANTIDADE;
 		}
+		calculaDescontoPedido();
+	}
+
+	public BigDecimal calculaDescontoPedido() {
+		this.desconto = tipoDesconto.getTotalDeDesconto(getTotalBruto());
+		return this.desconto;
+	}
+
+	public BigDecimal getTotalLiquido() {
+		return getTotalDeItens().subtract(calculaDescontoPedido());
+	}
+
+	public BigDecimal getTotalBruto() {
+		BigDecimal total = getTotalDeItens();
+		return total;
+	}
+
+	public BigDecimal getDesconto() {
+		return this.desconto;
 	}
 
 	public Long getId() {
@@ -113,6 +125,14 @@ public class Pedido {
 
 	public List<ItemDePedido> getItemPedidos() {
 		return itemPedidos;
+	}
+	
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 	@Override

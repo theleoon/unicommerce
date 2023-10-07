@@ -21,10 +21,5 @@ public enum TipoDescontoPedido {
 	BigDecimal getTotalDeDesconto(BigDecimal total) {
 		return total.multiply(getDesconto());
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(TipoDescontoPedido.FIDELIDADE
-				.getTotalDeDesconto(new BigDecimal("1000")));
-	}
 }
  

@@ -1,18 +1,16 @@
 package br.com.alura.unicommerce.core.entity;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.security.core.userdetails.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +30,7 @@ public class Cliente {
 	@Column(name = "nome", nullable = false)
 	private String nome;
 
-	@Column(name = "cpf", nullable = false, columnDefinition = "CHAR(11)", unique = true)
+	@Column(name = "cpf", nullable = false, unique = true)
 	private String cpf;
 
 	@Column(name = "telefone", nullable = false, length = 20)
@@ -41,9 +39,11 @@ public class Cliente {
 	@Embedded
 	private Endereco endereco;
 	
-	@OneToOne(optional = true)
+	@JsonIgnore
+	@OneToOne(optional = false, fetch = FetchType.EAGER)
 	private Usuario usuario;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Pedido> pedidos = new ArrayList<>();
 

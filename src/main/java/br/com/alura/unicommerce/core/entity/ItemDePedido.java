@@ -29,7 +29,7 @@ public class ItemDePedido {
 	@Column(name = "quantidade", nullable = false)
     private Long quantidade;
     
-	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToOne(optional = false, cascade = { CascadeType.ALL })
     private Pedido pedido;
     
 	@ManyToOne(optional = false)
