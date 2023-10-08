@@ -1,4 +1,4 @@
-package br.com.alura.unicommerce.api.auth;
+package br.com.alura.unicommerce.api.login;
 
 import jakarta.validation.constraints.NotNull;
 

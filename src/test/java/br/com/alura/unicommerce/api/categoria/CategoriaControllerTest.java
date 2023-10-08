@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import java.util.Random;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +64,7 @@ class CategoriaControllerTest {
 	void cadastroNovaCategoria() throws Exception {
 
 			var dados = dadosNovaCategoriaJson
-							.write(new DadosNovaCategoria("Geladeiras")).getJson();
+							.write(new DadosNovaCategoria("Geladeiras "+ new Random().nextInt())).getJson();
 			
 			System.out.println(dados);
 			

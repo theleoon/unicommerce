@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alura.unicommerce.api.DadosMensagem;
+import br.com.alura.unicommerce.api.infra.DadosMensagem;
 import br.com.alura.unicommerce.api.usuario.DadosNovoUsuario;
 import br.com.alura.unicommerce.api.usuario.DadosUsuario;
 import br.com.alura.unicommerce.api.usuario.service.UsuarioService;
@@ -38,12 +38,12 @@ public class UsuarioController {
 			
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new DadosMensagem("Ocorreu uma falha no cadastro de usuario"));
+					.body(new DadosMensagem("Ocorreu uma falha no cadastro de usuario", e));
 		}
 	}
 	
 	@GetMapping("{id}")
-	public ResponseEntity<Object> consultaPorId(@PathVariable("id") Long usuarioId) {
+	public ResponseEntity<Object> buscaPorId(@PathVariable("id") Long usuarioId) {
 
 		try {
 			
@@ -57,7 +57,7 @@ public class UsuarioController {
 			
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new DadosMensagem("Ocorreu na consulta por id: " + usuarioId));
+					.body(new DadosMensagem("Ocorreu na consulta por id: " + usuarioId, e));
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class UsuarioController {
 			
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new DadosMensagem("Ocorreu na consulta por de usuários"));
+					.body(new DadosMensagem("Ocorreu um erro", e));
 		}
 	}
 

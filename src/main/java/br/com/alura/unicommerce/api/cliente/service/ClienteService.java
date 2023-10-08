@@ -1,5 +1,6 @@
 package br.com.alura.unicommerce.api.cliente.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +14,26 @@ import br.com.alura.unicommerce.core.repository.ClienteRepository;
 public class ClienteService {
 
 	@Autowired
-	private ClienteRepository clienteRepository;
+	private ClienteRepository repository;
 
 	public void cadastra(Cliente obj) {
 		if (obj == null)
 			throw new ClienteException("Cadastro inválido para objeto nulo");
-		clienteRepository.save(obj);
+		repository.save(obj);
 	}
 
 	public void atualiza(Cliente obj) {
 		if (obj == null)
 			throw new ClienteException("Atualização inválida para objeto nulo");
-		clienteRepository.save(obj);
+		repository.save(obj);
 	}
 
 	public Optional<Cliente> buscaPorId(Long idCliente) {
-		return clienteRepository.findById(idCliente);
+		return repository.findById(idCliente);
+	}
+
+	public Optional<List<Cliente>> listaTodas() {
+		return Optional.ofNullable(repository.findAll());
 	}
 
 }

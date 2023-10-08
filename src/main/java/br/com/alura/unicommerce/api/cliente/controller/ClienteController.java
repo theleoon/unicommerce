@@ -1,7 +1,9 @@
 package br.com.alura.unicommerce.api.cliente.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.alura.unicommerce.api.DadosMensagem;
 import br.com.alura.unicommerce.api.cliente.DadosCliente;
 import br.com.alura.unicommerce.api.cliente.DadosNovoCliente;
 import br.com.alura.unicommerce.api.cliente.service.ClienteService;
+import br.com.alura.unicommerce.api.infra.DadosMensagem;
 import br.com.alura.unicommerce.core.entity.Cliente;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -32,7 +34,7 @@ public class ClienteController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosCliente> criaNovoCliente(@RequestBody @Valid DadosNovoCliente form,
+    public ResponseEntity<DadosCliente> cadastra(@RequestBody @Valid DadosNovoCliente form,
                                                     UriComponentsBuilder uriBuilder,
                                                     BindingResult result){
     	System.out.println(form.toString());
@@ -48,7 +50,7 @@ public class ClienteController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscaClientePorId(@PathVariable("id") Long idCliente){
+    public ResponseEntity<Object> buscaPorId(@PathVariable("id") Long idCliente){
     	
         if(idCliente == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DadosMensagem("Id para buscar Cliente inválido"));
         
@@ -57,6 +59,17 @@ public class ClienteController {
         if(encontrada.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosMensagem("Cliente não encontrado"));
 
         return ResponseEntity.status(HttpStatus.OK).body(new DadosCliente(encontrada.get()));
+    }
+    
+    @GetMapping("/lista")
+    public ResponseEntity<?> listaTodos(){
+    	
+        Optional<List<Cliente>> clientes = service.listaTodas();
+        
+        if(clientes.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new DadosMensagem("Não existem clientes no sistema"));
+
+        return ResponseEntity.status(HttpStatus.OK)
+        		.body(clientes.get().stream().map(DadosCliente::new).collect(Collectors.toList()));
     }
     
 }

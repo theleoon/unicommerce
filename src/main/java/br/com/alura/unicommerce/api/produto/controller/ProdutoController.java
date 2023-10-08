@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.alura.unicommerce.api.DadosMensagem;
 import br.com.alura.unicommerce.api.categoria.service.CategoriaService;
+import br.com.alura.unicommerce.api.infra.DadosMensagem;
 import br.com.alura.unicommerce.api.produto.DadosNovoProduto;
 import br.com.alura.unicommerce.api.produto.DadosProduto;
 import br.com.alura.unicommerce.api.produto.service.ProdutoService;
@@ -38,7 +38,7 @@ public class ProdutoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Object> criaNovoProduto(@RequestBody @Valid DadosNovoProduto form, UriComponentsBuilder uriBuilder,
+	public ResponseEntity<Object> cadastra(@RequestBody @Valid DadosNovoProduto form, UriComponentsBuilder uriBuilder,
 			BindingResult result) {
 
 		try {
@@ -70,12 +70,12 @@ public class ProdutoController {
 			return ResponseEntity.ok(new DadosProduto(produto.get()));
 
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DadosMensagem("Ocorreu um erro", e));
 		}
 	}
 
 	@GetMapping("/lista")
-	public ResponseEntity<List<DadosProduto>> listaTodos() {
+	public ResponseEntity<Object> listaTodos() {
 		try {
 			Optional<List<Produto>> produtos = produtoService.listaTodos();
 
@@ -86,7 +86,7 @@ public class ProdutoController {
 
 			return ResponseEntity.ok(produtosDto);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DadosMensagem("Ocorreu um erro", e));
 		}
 	}
 }

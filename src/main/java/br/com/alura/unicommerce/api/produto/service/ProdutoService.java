@@ -15,9 +15,6 @@ import br.com.alura.unicommerce.core.repository.ProdutoRepository;
 public class ProdutoService {
 	
 	@Autowired
-	private ProdutoDao produtoDao;
-	
-	@Autowired
 	private ProdutoRepository repository;
     
     public void cadastra(Optional<Produto> obj) throws ProdutoException {
@@ -35,7 +32,7 @@ public class ProdutoService {
     }
 
     public Optional<List<Produto>> listaTodos() {
-        return Optional.ofNullable(this.produtoDao.listaTodos());
+        return Optional.ofNullable(repository.findAll());
     }
 
 }

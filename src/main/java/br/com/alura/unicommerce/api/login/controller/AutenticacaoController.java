@@ -1,4 +1,4 @@
-package br.com.alura.unicommerce.api.auth.controller;
+package br.com.alura.unicommerce.api.login.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alura.unicommerce.api.auth.DadosAutenticacao;
-import br.com.alura.unicommerce.api.auth.DadosTokenJWT;
+import br.com.alura.unicommerce.api.login.DadosAutenticacao;
+import br.com.alura.unicommerce.api.login.DadosTokenJWT;
 import br.com.alura.unicommerce.core.entity.Usuario;
 import br.com.alura.unicommerce.infra.security.service.TokenService;
 import jakarta.validation.Valid;

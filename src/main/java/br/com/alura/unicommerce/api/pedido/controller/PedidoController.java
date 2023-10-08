@@ -1,6 +1,8 @@
 package br.com.alura.unicommerce.api.pedido.controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alura.unicommerce.api.DadosMensagem;
+import br.com.alura.unicommerce.api.cliente.DadosCliente;
 import br.com.alura.unicommerce.api.cliente.service.ClienteService;
+import br.com.alura.unicommerce.api.infra.DadosMensagem;
 import br.com.alura.unicommerce.api.pedido.DadosNovoPedido;
 import br.com.alura.unicommerce.api.pedido.DadosPedido;
 import br.com.alura.unicommerce.api.pedido.service.PedidoService;
 import br.com.alura.unicommerce.api.produto.service.ProdutoService;
+import br.com.alura.unicommerce.core.entity.Cliente;
 import br.com.alura.unicommerce.core.entity.Pedido;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -58,10 +62,28 @@ public class PedidoController {
 				.body(new DadosMensagem("Falha ao gravar novo pedido"));
 	}
 	
-
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> obtemPorId(@PathVariable("id") Long id) {
-				return ResponseEntity.status(HttpStatus.OK).body(new DadosMensagem("Rodou completo: "+ id));
-	}
+    public ResponseEntity<Object> buscaPorId(@PathVariable("id") Long id){
+    	
+        if(id == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DadosMensagem("Id para buscar inválido"));
+        
+        Optional<Pedido> encontrada = pedidoService.buscaPorId(id);
+        
+        if(encontrada.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosMensagem("Pedido não encontrado"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new DadosPedido(encontrada.get()));
+    }
+	
+	@GetMapping("/lista")
+    public ResponseEntity<?> listaTodos(){
+    	
+        Optional<List<Pedido>> pedidos = pedidoService.listaTodas();
+        
+        if(pedidos.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new DadosMensagem("Não existem pedidos no sistema"));
+
+        return ResponseEntity.status(HttpStatus.OK)
+        		.body(pedidos.get().stream().map(DadosPedido::new).collect(Collectors.toList()));
+    }
 
 }

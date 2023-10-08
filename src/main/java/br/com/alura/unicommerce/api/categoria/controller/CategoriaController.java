@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.alura.unicommerce.api.DadosMensagem;
 import br.com.alura.unicommerce.api.categoria.DadosCategoria;
 import br.com.alura.unicommerce.api.categoria.DadosNovaCategoria;
 import br.com.alura.unicommerce.api.categoria.service.CategoriaService;
+import br.com.alura.unicommerce.api.infra.DadosMensagem;
 import br.com.alura.unicommerce.core.entity.Categoria;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosCategoria> criaNovaCategoria(@RequestBody @Valid DadosNovaCategoria form,
+    public ResponseEntity<DadosCategoria> cadastra(@RequestBody @Valid DadosNovaCategoria form,
                                                     UriComponentsBuilder uriBuilder,
                                                     BindingResult result) {
     	
@@ -49,7 +49,7 @@ public class CategoriaController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Object> obtemCategoriaPorId(@PathVariable("id") Long idCategoria){
+    public ResponseEntity<Object> buscaPorId(@PathVariable("id") Long idCategoria){
         if(idCategoria == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DadosMensagem("Id para buscar categoria inválido"));
         
         Optional<Categoria> encontrada = service.buscaPorId(idCategoria);
@@ -60,7 +60,7 @@ public class CategoriaController {
     }
     
     @GetMapping("/lista")
-    public ResponseEntity<?> buscaTodasAsCategorias(){
+    public ResponseEntity<Object> listaTodos(){
     	
         Optional<List<Categoria>> categorias = service.listaTodas();
         
