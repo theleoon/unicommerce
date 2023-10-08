@@ -3,7 +3,9 @@ package br.com.alura.unicommerce.api.cliente;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 public class ClienteServiceTest {
 	
 	@BeforeAll

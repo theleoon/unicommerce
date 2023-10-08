@@ -17,11 +17,13 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
+@ActiveProfiles("test")
 class PedidoControllerTest {
 	
 	@Autowired
