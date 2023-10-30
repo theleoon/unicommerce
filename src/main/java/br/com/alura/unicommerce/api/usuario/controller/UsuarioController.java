@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alura.unicommerce.api.infra.DadosMensagem;
@@ -19,16 +21,19 @@ import br.com.alura.unicommerce.api.usuario.DadosNovoUsuario;
 import br.com.alura.unicommerce.api.usuario.DadosUsuario;
 import br.com.alura.unicommerce.api.usuario.service.UsuarioService;
 import br.com.alura.unicommerce.core.entity.Usuario;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/usuario")
+@CrossOrigin(origins = { "http://localhost:4200" })
 public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
 
 	@PostMapping
+	@Transactional
 	public ResponseEntity<Object> cadastra(@RequestBody @Valid DadosNovoUsuario dadosNovoUsuario) {
 
 		try {
@@ -43,6 +48,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("{id}")
+    @ResponseBody
 	public ResponseEntity<Object> buscaPorId(@PathVariable("id") Long usuarioId) {
 
 		try {
@@ -62,6 +68,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/lista")
+    @ResponseBody
 	public ResponseEntity<Object> listaTodos() {
 
 		try {

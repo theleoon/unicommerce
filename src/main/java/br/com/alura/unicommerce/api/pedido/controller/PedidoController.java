@@ -8,27 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alura.unicommerce.api.cliente.DadosCliente;
 import br.com.alura.unicommerce.api.cliente.service.ClienteService;
 import br.com.alura.unicommerce.api.infra.DadosMensagem;
 import br.com.alura.unicommerce.api.pedido.DadosNovoPedido;
 import br.com.alura.unicommerce.api.pedido.DadosPedido;
 import br.com.alura.unicommerce.api.pedido.service.PedidoService;
 import br.com.alura.unicommerce.api.produto.service.ProdutoService;
-import br.com.alura.unicommerce.core.entity.Cliente;
 import br.com.alura.unicommerce.core.entity.Pedido;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/pedido")
+@CrossOrigin(origins = { "http://localhost:4200" })
 public class PedidoController {
 	
 	@Autowired
@@ -64,6 +65,7 @@ public class PedidoController {
 	
 	
 	@GetMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<Object> buscaPorId(@PathVariable("id") Long id){
     	
         if(id == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DadosMensagem("Id para buscar inválido"));
@@ -76,6 +78,7 @@ public class PedidoController {
     }
 	
 	@GetMapping("/lista")
+    @ResponseBody
     public ResponseEntity<?> listaTodos(){
     	
         Optional<List<Pedido>> pedidos = pedidoService.listaTodas();
