@@ -47,11 +47,12 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Pedido> pedidos = new ArrayList<>();
 
-	public Cliente(String nome, String cpf, String telefone, Endereco endereco) {
+	public Cliente(String nome, String cpf, String telefone, Endereco endereco, Usuario usuario) {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.endereco = endereco;
+		this.usuario = usuario;
 	}
 
 	public Cliente() {

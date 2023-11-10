@@ -23,6 +23,7 @@ import br.com.alura.unicommerce.api.cliente.DadosCliente;
 import br.com.alura.unicommerce.api.cliente.DadosNovoCliente;
 import br.com.alura.unicommerce.api.cliente.service.ClienteService;
 import br.com.alura.unicommerce.api.infra.DadosMensagem;
+import br.com.alura.unicommerce.api.usuario.service.UsuarioService;
 import br.com.alura.unicommerce.core.entity.Cliente;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -34,6 +35,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteService service;
+    
+    @Autowired
+    private UsuarioService usuarioService;
 
     @PostMapping
     @Transactional
@@ -45,10 +49,10 @@ public class ClienteController {
         if(result.hasFieldErrors())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         
-        Cliente novaCliente = form.toEntity();
+        Cliente novaCliente = form.toEntity(usuarioService);
         service.cadastra(novaCliente);
 
-        URI uri = uriBuilder.path("/api/clientes/{id}").buildAndExpand(novaCliente.getId()).toUri();
+        URI uri = uriBuilder.path("/api/cliente/{id}").buildAndExpand(novaCliente.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosCliente(novaCliente));
     }
     
