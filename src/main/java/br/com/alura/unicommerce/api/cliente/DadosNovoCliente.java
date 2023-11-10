@@ -12,10 +12,10 @@ public record DadosNovoCliente(String nome, String cpf, String telefone, DadosNo
 
 }
 
-record DadosUsuario(Long id) {
+record DadosUsuario(String login, String senha) {
 
 	public Usuario toEntity(UsuarioService usuarioService) {
-		return usuarioService.buscaPorId(id).get();
+		return new Usuario(login, senha);
 	}
 
 }

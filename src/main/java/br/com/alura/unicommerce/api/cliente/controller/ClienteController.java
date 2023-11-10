@@ -23,6 +23,7 @@ import br.com.alura.unicommerce.api.cliente.DadosCliente;
 import br.com.alura.unicommerce.api.cliente.DadosNovoCliente;
 import br.com.alura.unicommerce.api.cliente.service.ClienteService;
 import br.com.alura.unicommerce.api.infra.DadosMensagem;
+import br.com.alura.unicommerce.api.usuario.exception.UsuarioException;
 import br.com.alura.unicommerce.api.usuario.service.UsuarioService;
 import br.com.alura.unicommerce.core.entity.Cliente;
 import jakarta.transaction.Transactional;
@@ -43,13 +44,14 @@ public class ClienteController {
     @Transactional
     public ResponseEntity<DadosCliente> cadastra(@RequestBody @Valid DadosNovoCliente form,
                                                     UriComponentsBuilder uriBuilder,
-                                                    BindingResult result){
+                                                    BindingResult result) throws UsuarioException{
     	System.out.println(form.toString());
     	
         if(result.hasFieldErrors())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         
         Cliente novaCliente = form.toEntity(usuarioService);
+        usuarioService.cadastrar(novaCliente.getUsuario());
         service.cadastra(novaCliente);
 
         URI uri = uriBuilder.path("/api/cliente/{id}").buildAndExpand(novaCliente.getId()).toUri();
