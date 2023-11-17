@@ -1,12 +1,13 @@
 package br.com.alura.unicommerce.api.login.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +21,9 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/login")
-@CrossOrigin(origins = { "http://localhost:4200" })
 public class AutenticacaoController {
+	
+	private static final Logger log = LoggerFactory.getLogger(AutenticacaoController.class);
 
     @Autowired
     private AuthenticationManager manager;
@@ -31,6 +33,9 @@ public class AutenticacaoController {
 
     @PostMapping
     public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
+    	
+    	log.info(dados.toString());
+    	
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         var authentication = manager.authenticate(authenticationToken);
 
@@ -38,6 +43,7 @@ public class AutenticacaoController {
         
         HttpHeaders headers = new HttpHeaders();
         headers.add("x-access-token", tokenJWT);
+        headers.add("user-profile", "admin");
 
         return ResponseEntity
         		.status(HttpStatus.OK)

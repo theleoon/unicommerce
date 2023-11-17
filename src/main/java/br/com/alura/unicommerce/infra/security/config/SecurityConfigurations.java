@@ -25,16 +25,12 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+        return http.cors().and().csrf().disable()
                 .sessionManagement()
                 	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 		.and()
 	                		.authorizeHttpRequests()
 	                			.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-	                			.requestMatchers("/api/usuario").permitAll()
-	                			.requestMatchers("/api/categoria/**").permitAll()
-	                			.requestMatchers("/api/cliente/**").permitAll()
-	                			.requestMatchers("/api/produto/**").permitAll()
 	                			.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
             			.anyRequest()
             			.authenticated()
